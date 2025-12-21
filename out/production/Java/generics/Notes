@@ -1,0 +1,108 @@
+
+Generic Types allow you to define a class, interface, or method with placeholder (type parameter) for
+the data type they will work with.
+
+T: Type
+E: Element (used in Collections)
+K: Key (used in maps)
+V: Value (used in maps)
+N: Number
+
+We can make an interface generic
+We can achieve in two ways:
+1. Specify type while implementing - class cls implements generic<String>
+2. Make class that implements the generic interface generic - class<T> cls implements generic<T>
+
+Bounded Type Parameters
+applying condition on parameter type, whether it extends or implements some class
+eg, Number class is the parent class of all wrapper class except String
+So we applied bound that a wrapper class should a subclass of Number
+We can apply multiple constraints ( bound ):
+ class Box<T extends Number & Printable>{
+      T ke jagah sirf wo class aa skti hai jo number ko extend kare aur printable ko impement
+ }
+  syntax: class cls< T extends classExtends & intercaceImplements>
+  base class always comes first then & interface
+  first class then & interface1 & interface2 so on
+  if type T has to implement one interface only then also <T extends interface_name>
+
+ type safety achieved using generic type
+
+ generic Constructor
+ Even if class is normal its constructor can be generic
+ syntax: class Test{
+    public <T> Test(T type){
+    }
+    }
+
+ generic method
+ syntax: class Test{
+     public <T> return_type methodName(T type){
+     }
+   }
+
+   In Java Generics, wildcards(?) are a special kind of type argument that can be used in method arguments or
+   class definition to represent unknown type.They allow for more flexible and dynamic code by letting
+   the type be specified later or be more loosely defined.
+   Used when data is read only and not returning anything
+
+   One wy to apply boundation is that ? must accept the super class of some class
+   eg, below will accept those that are super class of class Integer
+      void printNumber(List<? super Integer> list)
+      This is called lower bound meaning we can not pass subclasses Integer only super class of Integer
+      allowed
+
+      double sum(List<? extends  Number> numbers)
+      This is called upper bound meaning only subclasses of Number  are allowed not the super classes of
+      Number
+
+     Type eraser
+       The type u specify while creating is erased in bytecode, let us understand
+       Compiler erases generic information after checking and replaces T with Object:
+       public class Box {
+
+           private Object value;
+           // Object is a super class of all the classes, It can store all wrapper class objects
+
+           public Object getValue() {
+               return value;
+           }
+
+           public void setValue(Object value) {
+               this.value = value;
+           }
+
+
+           public static void main(String[] args) {
+       //        Box box = new Box();
+       //        box.setValue("String");
+       //        String i = (String) box.getValue();
+
+
+           }
+       }
+       The Type T is erased during compilation,
+       # If <T extends Number> , upper bound is applied then during compilation type T is replaced with Number itself.
+
+       Remember, during runtime the generic information is not present
+  Generics in Exception
+
+   Exception: An exception is an event that occurs during the execution of the program that disrupts its normal flow.
+
+   class GenericException<T> extends Exception{
+     This causes errors during runtime because the generic type info is erased during run time, how ill it handle exception
+     at runtime.We get compilation error.
+     For JVM to create exception object it will need exact type parameter
+   }
+
+   Java does not support generic exception during type erasure. Type erasure means that generic type information is removed at runtime.
+   Since exception are closely tied to runtime operations(like catching them in try-catch blocks), having generic exceptions
+   would not work as exception. For example , if you had an exception like myGenericException<T>, you would not be able to
+   catch it with a specific type parameter because that type parameter because that type information be erased at runtime.
+
+   its all about making a generic class that extends exception, But we have seen that we can make generic constructor in
+   a normal class, so make this inside a custom exception class, go to exception folder
+
+
+
+
