@@ -1,0 +1,146 @@
+# Basics
+
+The CPU, often referred to as the brain of the computer, is responsible for executing instruction from programs.
+It performs basic arithmetic, logic, control, and input/output operations specified by the instructions.
+Examples: A modern CPU like Intel core or AMD Ryzen 7
+
+A core is an individual processing unit within a CPU. Modern CPU can have multiple cores, allowing them to perform
+multiple tasks simultaneously.
+A quad-core processor has four cores, allowing it to perform four tasks simultaneously. For instance, one core could handle
+your web browser, another your music player, another a download manager, and another a background system update.
+
+A program is a set of instructions written in a programming language that tells the computer how to perform a specific tasks
+Example, Microsoft Word is a program that allows user to create and edit documents
+
+A process is an instance of a program that is being executed. When a program runs, the operating system crates a process
+to manage its execution.
+Example, when we open Microsoft Word it becomes process in the operating system
+
+A thread is the smallest unit of execution within a process. A process can have multiple threads, which share the same
+resources but can run independently.
+Example, A web browser like Chrome might use multiple threads for different tabs, with each tab running as a separate
+thread.
+
+# Multitasking
+
+Multitasking allows an operating system to run multiple processes simultaneously. On single-core CPU, this
+is done through time sharing, rapidly switching between tasks. On multi-core CPUs, true parallel
+execution occurs, with tasks distributed across cores. The OS scheduler balances the load, ensuring efficient
+and response system performance.
+Example, Suppose we are browsing the internet while listening to music and downloading a file.
+It utilizes the capabilities of CPU and its cores. When an operating system performs multitasking, it can assign
+different tasks to different cores. This is more efficient then assigning all tasks to a single core.
+
+# Multithreading
+
+Multithreading refers to the ability to execute multiple threads within a single process simultaneously.
+Example, A browser can use multithreading by having separate threads for rendering the page, running JavaScript,
+and managing their inputs. This makes browser more responsive and efficient.
+
+Read carefully - multithreading enhances the efficiency of multitasking by breaking down individual tasks into
+smaller sub-tasks or threads. These threads can be processes simultaneously, making better use of CPU's
+capabilities
+
+In a single core system : Both threads and processes are managed by  OS scheduler through time slicing and
+context switching to create the illusion of simultaneous execution.
+
+In a multi-core system: Both threads and processes can run in true parallel on different cores.
+
+Time Slicing: Divides CPU's time into smaller intervals called time slices or quanta.
+The OS scheduler allocates these time slices to different processes and threads , ensuring
+each gets a fair share of CPU time. This prevents any single process or threads from monopolizing the CPU.
+
+ Context Switching: It is the process of saving the state of currently running process or threads and loading
+ the state of next one to be executed. When a process or thread's time slice expires the OS scheduler
+ performs a context switch to move the CPU's focus to another process or thread.
+
+ Multitasking can be achieved through multithreading where each task is divided into threads that are managed
+ concurrently. While multitasking typically refers to the running of multiple application, multithreading is more
+ granular, dealing with multiple threads within the same application or process.
+
+Multitasking operates at the level of processes, which are the operating system's primary unit of execution.
+Multithreading operates at the level of threads, which are smaller units within a process.
+
+ Multitasking involves managing resources between completely separate programs, which may have independent
+ memory spaces and system resources
+Multithreading involves managing resources within a single program, where thread share the same memory and resources
+
+Multitasking allows us to run multiple application simultaneously, while multithreading allows a single application
+to perform multiple tasks at the same time.
+
+The office's manager(OS) assigns different employees(processes) to work on different projects (applications) simultaneously.
+Each employee works on a different project independently.
+
+Within a single project(application), a team(process) of employee(threads) works on different parts of the project
+at the same time
+
+
+Java's simple hello world program is also a process, it can be divided into into multiple threads see
+at the end you can see at console -> Process finished with exit code 0
+
+Java provides robust support for multithreading, allowing developers to create applications that can
+perform multiple tasks simultaneously, improving performance and responsiveness
+
+In Java, multithreading is the execution of two or more threads to maximize the utilization of CPU.
+Java's multithreading capabilities are the part of the java.lang package, making easy to implement concurrent execution.
+
+ In a single core environment, Java's multithreading is manages by the JVM and the OS, which switch between thread to give
+ the illusion of concurrency.
+ The thread share the single core, and the time slicing used to manage thread execution.
+
+ In a multicore environment, java can take full advantage of multiple cores, the JVM can distribute threads across
+ multiple cores.
+
+ Thread is a lightweight process, the smallest unit of processing.
+
+ Java supports multithreading through its java.lang.Thread and the java.lang.Runnable interface.
+
+ ** When a Java program starts, one thread begins running immediately, which is called the main thread. This thread
+ is responsible for executing the main method of a program. **
+
+ To get the name of the thread running currently:
+ Thread.currentThread().getName()
+
+Two ways of creating a thread in Java:
+1.
+ To create a thread, create a new class that extends Thread and override the run() method of Thread.
+ Te run it, create the object of the class that extends the Thread in the main method and : className.start()
+
+# A new class World is created that extends Thread. The run method is overridden to defines the code that constitutes
+the new thread. start method is called to initiate the new thread.
+
+2.
+  Create a new class that implements runnable, override the run method by adding here the task
+  # To start thread execution, first create the object of class that has run then pass this object
+  as an argument to Thread class constructor : Thread t1 = new Thread(world), then t1.start();
+
+# A new class World is created that implements Runnable. The run method is overridden to defines the code that constitutes
+  the new thread. A Thread object is created by passing an instance of MyRunnable. start method is called on the Thread object
+  to initiate the new thread.
+
+In both cases, the run method contains the code that will be executed in the new thread.
+
+# Thread Lifecycle
+
+The lifecycle of a thread in Java consists of several states, which a thread can move through during its execution.
+New: A thread is in this state when it is created but not  yet started. eg. World world = new World()
+Runnable: After the start method is called, the thread becomes runnable. Its ready to run and is waiting for CPU time.
+ eg, world.start()
+Running: The thread is in this state when it is executing. eg, code inside run() executes
+Blocked / Waiting: A thread in this state when it is waiting for a resource or for another thread to perform an action.
+Terminated: A thread is in this state when it has finished executing.
+
+# thraedObject.getState() to get the state of thread
+check out MyThread.java
+
+use runnable when a thread is extending another class, as multiple inheritance not allowed in Java you can only implement Runnable
+class A extends B implements Runnable{}
+
+# Thread methods
+ start, sleep. join
+ setPriority(Thread.MIN_PRIORITY)
+ MIN_PRIORITY = 1
+ MAX_PRIORITY = 10
+ NORM_PRIORITY = 5
+
+interrupt, interrupt the run method
