@@ -144,3 +144,70 @@ class A extends B implements Runnable{}
  NORM_PRIORITY = 5
 
 interrupt, interrupt the run method
+
+# synchronized : The synchronized keyword in Java is used to control access to shared resources in a multithreaded environment
+ so that only one thread can execute the code at a time.
+                 It helps to prevent race conditions when multiple threads try to access or modify the same data.
+  When a thread enters a synchronized code:
+  It acquires a lock (monitor) on an object
+  Other threads wait until the lock is released
+  When the thread exits the synchronized code, the lock is released automatically
+Synchronized block: Lock is taken on specific object
+                    Only the code inside the block is synchronized
+                    Rest of the method runs without lock
+
+      So, when the object is shared between multiple threads it will lead to incorrect results, critical section is
+      a part of the program where the shared resources is being accessed, use synchronized key word there to reduce race condition
+
+Mutual Exclusion in Java is a concurrency control mechanism that ensures only one thread at a time can access a shared resource or critical section, preventing data inconsistency and race conditions.
+when a thread is executing a shared data it acquires lock on that
+
+There are two types of lock:
+1.Intrinsic: These are built into every object in Java. You don't see them but they are there. When you use a
+synchronized keyword, you're using these automatic block.
+There is a lock attached to every object internally.
+2. Explicit: These are more advance locks you can control yourself using the Lock class from java.util.concurrent.locks.
+You explicitly say when to lock or unlock, giving you more control over how and when people can write in the notebook for eg.
+
+There are some drawbacks of synchronized keyword:
+No other thread will execute that block or function until the current thread completes its execution including
+the sleep task/period. The thread that acquires lock should complete its task entirely.
+Imagine if Thread.sleep(100000) 100 sec pause , other threads will have to wait so long, inefficient
+synchronized provides automatic locks,
+
+Manual locks / Explicit locks : Lock is an interface, Lock lock = new ReentrantLock(); the thread which will acquire this lock are
+only allowed to access critical section. Lock has some methods:
+lock.lock(); : Thread trying to acquire lock.
+lock.trylock() : acquires the lock only if it is free at the time of invocation, if not available then returns false
+lock.unlocck() : giving lock to other thread
+
+proceed with BankAccountLock class
+
+if(lock.tryLock(1000, TimeUnit.MILLISECONDS)): Acquires the lock if it is free within the given waiting time and the current
+thread has not been interrupted. lock.tryLock() does not wait.
+
+In catch block, the information that the thread was interrupting will be lost, you can either re-throw it or manually re-interrupt
+the current thread by calling Thread.interrupt(), potential impact is delaying the thread shutdown and losing the info
+ that the thread was interrupted. Restore the interrupted thread state so that other threads can notice.
+ The state of the interrupted state wil be interrupt, can be checked using isInterrupted
+
+Reentrant Lock: lock(): waits indefinitely for the lock, unlock(): release the lock, trylock(): try to find lock once only,
+other variant is time bounded where we specify the time period to wait. Deadlock prevention using ReentrantExample
+lockInterruptibly() instaed of lock.lock(), when a thread is in blocked_waiting state waiting for other thread to complete
+execution, this thread cannot interrupt the running thread, we can make this current thread interruptible using this method
+
+unfairLock: private final Lock fairLock = new ReentrantLock(true); making fair parameter true, the lock will be acquired by the
+threads in the order in which they are started.
+Drawback of synchronization: 1. Fairness 2. Blocking 3. Interruptibility 4. Read/Write blocking
+4. Synchronization cannot distinguish between read or write thread, t must allow read thread to access shared resource
+  ReadWriteCounter.java RaedWriteLock interface allows multiple threads to read concurrently as long as no thread is writing to it.
+  It ensures exclusive access for write operation, try this file
+
+# Deadlock: Deadlock is a situation in multithreading where two or more threads are blocked forever, waiting for each other to release
+a resource. This typically occurs when two or more threads have circular dependencies on a set of locks.
+
+Deadlock typically occurs when four conditions are met simultaneously:
+1. Mutual Exclusion:nOnly one thread can access a resource at a time.
+2. Hold and Wait: A thread holding at least one resource is waiting to acquire additional resource held by other threads.
+3. No preemption: Resource cannot be forcibly taken from threads holding them.
+4. Circular Wait: A set of threads is waiting for each other in a circular chain.
