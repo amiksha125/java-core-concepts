@@ -211,3 +211,157 @@ Deadlock typically occurs when four conditions are met simultaneously:
 2. Hold and Wait: A thread holding at least one resource is waiting to acquire additional resource held by other threads.
 3. No preemption: Resource cannot be forcibly taken from threads holding them.
 4. Circular Wait: A set of threads is waiting for each other in a circular chain.
+
+# Thread Communication: Th a multithreaded environment, threads often needs to communicate and coordinate with each other
+to accomplish a task. Without proper communication mechanisms, threads might end up in inefficient busy-waiting states,
+leading to wastage of CPU resources and potential deadlocks.There are some methods:
+wait(), notify(), notifyAll() can only be called within a synchronized context.
+
+wait(): tells the current thread to stop and wait until other thread will notify you with notify() / notifyAll()
+
+notify(): wakes up a single thread that is waiting
+
+notifyAll(); wake up all the threads that are waiting
+
+# Thread safety
+
+The object or code is said to be thread safe when it guarantees no unexpected result or race condition will occur when multiple threads are
+trying to access the object or block of code concurrently.
+eg StringBuffer is thread safe but StringBuilder is not
+
+# Thread using Lambda Expression
+
+Runnable is an interface : A normal interface can have static methods, default methods, abstract methods. An interface with single abstract
+methods is called functional interface. A functional interface only has one one abstract method without body.
+
+Lambda Expressions are anonymous functions:
+ public void func() {
+   sout("Hello");               => lambda function =>   () -> { sout("Hello"); }
+ }
+
+remove accessmodifier, return type and functionname and put => betwen () and {}
+
+We know Runnable has a single abstract method, we can create an object of implementation class(class implements runnable),
+create anonymous class, or create a Lambda Expression that is run() method converted to expression
+
+# Thread Pools: They are collection of pre-initialized threads to perform a task
+Example, You opened a juice center, after some days the number od customers starts increasing, you start calling some of your friends to help
+but there is no guarantee that all will come to help, so create a set of 2 to 3 friends in advance
+why it matters: 1. Resource management: creating or destroying threads can be expensive, there is overhead, no proper management of resource
+2. Response time:set of threads are already available
+3. Control over Thread Count: can set a limit on the maximum threads you can create
+
+Let us start this with executor framework
+The Executor Framework in Java was introduced in Java 5 as a part of java.util.concurrent package to simplify the development
+of concurrent application by abstracting away many of the complexities involved in creating and managing threads.
+
+Problems occurred prior to executor frameworks:
+Manual Thread Management
+Resource Management
+Scalability
+Thread Reuse
+Error Handling
+
+There are three core interfaces in Executor Framework:
+1. Executor 2. ExecutorService 3. ScheduledExecutorService
+
+ * Create a thread pull with Executors.newFixedThreadPool(9), this returns ExecutorService;
+ * This executorService has a submit() method that takes runnable logic as argument
+ * executorService.shutdown() to stop the execution
+
+Difference between Runnable and Callable:
+ Runnable : used when no result need to be returned, run() method, cannot write throws in run() method signature
+ Callable: used when you need to return something, call() method, method throws Exception no need of try/catch for Thread.sleep()
+
+What we have seen so far: submit(runnable), submit(callable), shutdown(), shutdownnow(), awaitedTermination(), isShutDown()
+
+There is a submit(runnable, result): to store result in future variable and access using get
+isTerminated : returns true if all tasks have completed following shut down.
+
+executorService.invokeAll();
+//        Executes the given tasks, returning a list of Futures holding their status and results when all complete.
+        Params:
+//        tasks – the collection of tasks
+//      Returns:
+//        a list of Futures representing the tasks, in the same sequential order as produced by the iterator for the given task list, each of which has completed
+
+methods associated with future object:
+get(), isDone(), isCancelled(), get(time) wait for specified time
+| Method          | Meaning                          |
+| --------------- | -------------------------------- |
+| `isCancelled()` | Was task cancelled?              |
+| `isDone()`      | Completed OR cancelled OR failed |
+| `cancel(false)` | Cancel result, not execution     |
+| `cancel(true)`  | Interrupt execution              |
+
+ 3. ScheduledExecutorService: To perform task after some delay or periodically, regular interval.
+ It extends ExecutorService which extends Executor
+ It has a schedule method with 2 variants : with runnable and callable
+ schedule () takes three parameters, first one is runnable/ callable , second is delay, third is timeUnit
+ The task will be executed after specified delay.
+
+ scheduledFixedRate():
+ Meaning:
+ scheduler.scheduleAtFixedRate(task, 0, 5, TimeUnit.SECONDS);
+ ➡️ Run task every 5 seconds, counted from the start time of the previous run.
+
+ Flow (simple):
+
+ Task starts at 0 sec
+
+ Next start at 5 sec
+
+ Next at 10 sec
+
+ Next at 15 sec
+
+ ⏱️ Execution time is ignored
+
+ scheduledFixedDelay:
+ scheduler.scheduleWithFixedDelay(task, 0, 5, TimeUnit.SECONDS);
+➡️ Wait 5 seconds after task finishes, then start again.
+
+Flow (simple):
+
+Task starts at 0 sec
+
+Finishes at 3 sec
+
+Next starts at 8 sec
+
+Finishes at 11 sec
+
+Next starts at 16 sec
+
+⏳ Execution time is included
+
+Summery: Core interfaces: Executor → ExecutorService → ScheduledExecutorService
+         Thread pool creation: Executors.newFixedThreadPool(n) returns ExecutorService
+
+         Task submission: submit(Runnable) and submit(Callable)
+
+         Shutdown methods: shutdown(), shutdownNow(), awaitTermination()
+
+         Runnable vs Callable:
+
+         Runnable: no return value, run(), cannot throw checked exceptions
+
+         Callable: returns value, call(), can throw exceptions
+
+         Future usage: store task result, access via get()
+
+         Future methods: get(), get(timeout), isDone(), isCancelled(), cancel(true/false)
+
+         invokeAll(): executes multiple tasks and returns Future list in submission order
+
+         Task state checks: isShutdown(), isTerminated()
+
+         ScheduledExecutorService: runs tasks after delay or periodically
+
+         Scheduling methods: schedule(), scheduleAtFixedRate(), scheduleWithFixedDelay()
+
+         Fixed Rate: runs at regular start-time intervals
+
+         Fixed Delay: waits for task completion before next run
+
+
