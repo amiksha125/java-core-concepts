@@ -1,0 +1,17 @@
+Ques: Is Java a pure object oriented programming language ?
+Ans: No, not all predefined types are object (primitive data types like int, float, double). We have predefined types as
+non-object.
+
+Wrapper class wraps around a primitive data type to convert it into an Object, enabling them to be used in object-oriented
+context where only Objects are allowed. such as collection like arraylist.
+They provide: Object representation, collection compatibility, enhanced type casting (converting strings to numbers or numbers
+to string) , wrapper objects can be null, Autoboxing / Unboxing ( Java automatically converts between their primitives and wrappers)
+
+Autoboxing : the automatic conversion of primitive type, such as int, to its corresponding wrapper object ( int to Integer).
+Unboxing : Automatically converting an object of a wrapper class to its corresponding primitive type (Integer to int )
+
+Autoboxing :        Integer i = Integer.valueOf(1); // Unnecessary boxing , Java automatically does this
+          You can simply write,  Integer i = 1;
+
+Unboxing : int i1 = i.intValue(); // Unnecessary unboxing
+ You can write , int i1 = i;
