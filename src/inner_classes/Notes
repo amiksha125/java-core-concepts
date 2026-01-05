@@ -1,0 +1,38 @@
+An inner class is a class declared inside the body of another class . It has access to all the members (including private)
+of its outer class.
+
+Types of Inner Classes
+* Member Inner Class
+* Static Nested Class
+* Local Inner Class
+* Anonymous Inner Class
+
+Member Inner Class : As the name suggest wil be the member of the outer class. This is treated as other members of class
+like fields and methods. This member inner class's object is initialized using the outer class's object. Each inner class
+object will be different for different outer class. If the Car's object is created with the model toyota, then engine will
+be created specifically for toyota using this object. This inner will eventually become the property of engine.
+Inner class is associated with instance of outer class
+instance of inner class only be created with help of instance of outer class
+How inner class object is created:
+  OuterClassName.InnerClassName obj = outerClassObjName.new InnerClassName();
+  outer class object must be created first
+
+Static Nested Class : The inner class belongs to the outer class rather than the instance of the outer class.
+Inner class instance is not dependent on outer object. USB is a part of computer, a separate device independent of it.
+USB can work with different computers and their objects. The memory is saved and can be shared by all the outer objects.
+
+Anonymous Inner Class : Object of Interface cannot be instantiated but can be used to create a implementation class, see
+new Payment() {
+            @Override
+            public void pay(double amount) {
+                System.out.println("Paid " + amount + " using credit card.");
+            }
+        }
+    this is nothing but an instance of Payment Type, an instance of an implementation class created on the fly
+To create an object of implementation class on the fly without explicitly creating it, when you have to implement an interface
+without creating its separate implementation class or extending a class without actually creating a subclass.
+Anonymous : because no name is given to this class, used immediately after creation. After Java 8 we can provide lambda expression also
+
+Local Inner Class : Creating class inside a function. Further no need to care about the inner object creation, It is created
+inside a function and used. The local inner class is tightly coupled with function and its invocation. This class can access
+the members of enclosing class, if designing separate class validator then it would  require passing members of outer class
