@@ -1,0 +1,51 @@
+Types of Errors: Syntax, Logical and Runtime errors
+
+Program will crash during run time errors.
+
+Program will run except some cases. So we will handle those exception
+
+The exception handling is a way to handle the runtime error so that the normal flow of the application can be maintained.
+Exception is an event that disrupts the normal flow of the program.It is an object which is thrown at runtime.
+
+By default every class extends Object class. Object class has a method called toString() being used by SOUT when printing object.
+When you try to print object it will print some hashcode, override the toString in your class and return whichever string you want for friendliness
+  System.out.println(e); this works the same, toString method is printing the message in a format this is present in throwable class which is extendeds by Exception
+
+ Hierarchy : I took a screenshot
+ Arithmetic Exception is extending RuntimeException which in turn extends Exception and Exception extends Throwable
+ Polymorphism : creating reference of parent type in which initializing object of its child
+
+ There are multiple types of exceptions: NullPointerException, IndexOutofBoundException, IllegalArgumentException, Arithmetic
+
+ If a block of code may throw objects of multiple typs of exceptions then it is recommended to put Exception reference type
+ in the catch block.
+
+We have seen: Exception handling, Hierarchy, Multiple catch blocks, toString()
+Nested try and catch are also possible
+
+
+Stack Trace: Stack trace that provides detailed information about method calls that leads to exception
+each exception object has getStackTrace() method, that returns of array related to each call in call stack.
+process will finished successfully if this methods written inside catch block else it disrupts the flow
+e.printStackTrace(); //
+e.getMessage();
+
+Student a = null;
+a.setId(123); // this is not checked by compiler it will let you do this
+This is why it is called unchecked exception, they are not being checked at compile time
+
+Some exceptions do get checked at compile time called checked exception
+Eg, Unhandled exception: java.io.FileNotFoundException given by FileReader fileReader = new FileReader("a.txt");
+FileNotFoundException is the subClass of IOException
+If a.txt is not present then file wont be compiled.
+
+Throws keyword: The caller statement will be responsible for exception handling, It notifies caller statement that this function
+may throw an exception. It is alternative to try/catch. The throws keyword is added to the method signature followed by the
+type of exception. If the function throwing error via throws is called inside another function then that exception should be handled
+there also either using try/catch or throws itself.
+
+Throw keyword: To explicitly throw an exception
+
+closing reader object in finally block, if user made changed to files it should be closed even if there are return statement above it
+
+After Java 7, try with came , try (line that might throw error)
