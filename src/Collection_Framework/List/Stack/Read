@@ -1,0 +1,18 @@
+Stack extends Vector
+
+Stack is data Structure that LIFO ir FILO property
+Insertion and deletion is allowed from one end oly called top.
+
+Why Stack, till now
+ArrayList: Stores data in sequential manner , and better for single threaded env, get() element in constant time
+LinkedList: Better for heavy insertion and deletion operation, not efficient for accessing
+Vector: Stores data in sequential manner , and better for multi threaded env, get() element in constant time
+
+Stack: To achieve LIFO behaviour means the last element is the first you will get.
+It inherits the Vector class so it is used for achieving synchronization
+
+LIFO Structure: Stack follows the Last-In-First-Out principle, where the last element added is the first one to be removed.
+Inheritance: Stack is a subclass of vector, which means it inherits all the features of a dynamic array but is constrained
+by the Stack's LIFO nature.
+
+// We do not get better performance in Stack or Vector as it locks resources, use CopyOnWriteArrayList

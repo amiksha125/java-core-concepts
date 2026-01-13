@@ -1,0 +1,56 @@
+A vector in java is a part of the java.util package and is one of the legacy classes in Java that implements the List interface.
+
+It was introduced in JDK 1.0 before collection framework and is synchronized, making it thread-safe.
+
+Now it is apart of Collection Framework.
+
+However, due to its synchronization, Its generally recommended to use other modern alternatives like ArrayList
+in single threaded scenarios. Despite this, vector is still useful in certain areas, particularly in multithreaded
+environment where thread safety is concern.
+
+Memory overhead due to synchronization
+
+Key features of vector:
+* Dynamic Array: Vector is a dynamic array that grows automatically when more elements are added then its current capacity.
+* Synchronized: All the methods in Vector are synchronized, which makes it thread-safe. This means multiple threads can work on Vector
+without the risk of corrupting data. However, this can introduce performance overhead in single-threaded environment.
+* Legacy Class: Vector was part of java's original release and is considered as legacy class. It's generally recommended to use
+ArrayList in single threaded environment due to performance considerations.
+* Resizing Mechanism: When the current capacity of the vector is exceeded, it doubles its size by default(or increase by the capacity
+increment if provided).
+* Random Access: Similar to array and ArrayList, Vector allows random access to elements, making it efficient for accessing
+elements using an index.
+
+Constructors of Vector
+
+Vector(): Creates a vector with an initial capacity of 10.
+Vector(int initialCapacity): Creates a vector with the specified capacity.
+Vector(int initialCapacity, int capacityIncrement): Creates a vector with an initial capacity and capacity increment(how much
+the vector should grow when its capacity is exceeded).
+Vector(Collection< ? extends E> c): Creates a vector containing the elements of the specified collection.
+
+Methods in Vector
+
+add(E a): Adds an element at the end
+add(int index, E element): Inserts an element at the specified index.
+get(int index): Retrives the element at the specified index.
+set(int index, E element): Replaces the element at the specified index.
+remove(Object o): Removes the first occurance of specified element.
+remove(int index): Removes the first element at the specified index.
+size(): Returns the number of elements in the vector
+isEmpty(): Checks if the vector is empty.
+contains(Object o): Checks if the vector contains the specified index.
+clear(): Removes all elements from the vector.
+
+Internal Implementation of Vector:
+Internally, Vector uses an array to store its elements. The size of this array grows as needed when more elements are added.
+The default behaviour is to double the size of the array when it runs out of space. This resizing operation is costly one
+as it requires copying elements to the new, larger array.
+
+Synchronization and Performance
+Since Vector methods are synchronized, it ensures that only one thread can access the vector at a time. This makes it thread
+safe but can introduce performance overhead in single-threaded environment because synchronized adds locking and unlocking
+costs.
+
+In modern Java, ArrayList is preferred over Vector when synchronization is not required. For thread-safe collections, the CopyOnWriteArrayList
+or ConcurrentHashMap from the java.util.concurrent package is recommended
