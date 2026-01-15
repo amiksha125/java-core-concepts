@@ -1,0 +1,37 @@
+In Java, a Map is an Object that maps key to values. It cannot contain duplicate keys, and each key can map to at most one value.
+`Think of it as a dictionary` where you look up a word(key) to find its definition(value).
+
+For Example, wr can make a dictionary of student where roll no(key)  is mapped to student's name(value)
+
+Roll           Name
+101           Alice Johnson
+102           Bob smith
+103           Eva Thompson
+
+a student cannot have two roll no but there can be two students with same name, roll no will uniquely identify each student
+
+### Key Characteristics of Map Interface
+Key-Value Pairs: Each entry in a Map consists of a key and a value.
+Unique Keys: No two entries can have the same key.
+One value per key: Each key maps to a single value.
+Order: Some implementations maintains insertion order(LinkedHashMap), natural order(TreeMap), or no order(HashMap).
+
+
+
+
+HashMap → Single thread, fastest
+
+Hashtable → Old, fully synchronized, slow
+
+ConcurrentHashMap → Multi-thread, modern & efficient
+
+
+| Feature         | HashMap     | Hashtable      | ConcurrentHashMap |
+| --------------- | ----------- | -------------- | ----------------- |
+| Thread Safe     | ❌ No        | ✅ Yes          | ✅ Yes             |
+| Synchronization | ❌ None      | 🔒 Full method | 🔒 Segment-level  |
+| Performance     | ⭐ Fast      | ❌ Slow         | ⭐⭐ Fast           |
+| Null Key        | ✅ 1 allowed | ❌ Not allowed  | ❌ Not allowed     |
+| Null Value      | ✅ Allowed   | ❌ Not allowed  | ❌ Not allowed     |
+| Legacy          | ❌ No        | ✅ Yes          | ❌ No              |
+| Iteration       | Fail-fast   | Not fail-fast  | Fail-safe         |
