@@ -1,0 +1,218 @@
+Key Characteristics of HashMap
+Unordered: Does not maintain any order of its elements.
+Allows null Keys and Values: Can have one null key(uniqueness in keys) and multiple null values.
+Not Synchronized: Not thread-safe; requires external synchronization if used in multi-threaded context
+Performance: Offers constant-time performance (O(1)) for basic operations like get or put, assuming the hash function disperses
+elements properly.
+
+
+Internal Working of HashMap:
+Basic Components of HashMap:
+Value, Key, Bucket , Hash Function
+Key: The identifier used to retrieve value
+Value: The data associated with key
+Bucket: A place where key-value pairs are stored, can be thought as cells in a list(array).
+Hash Function: Converts key into an index (bucket location) for storage
+
+When we put a key-value into hashmap, the key is given as an input to the hash function and it converts key into an index of bucket
+Each key has an unique corresponding index in bucket.
+
+A hash function is an algorithm that takes an input(or "key") and returns a fixed-sized string of bytes, typically a numeric value.
+The output is known as a hash code, hash value or simply hash. `The primary function of a hash function is to map data of arbitrary
+size to data of fixed size`
+
+* Deterministic : The same input will always produce the same output. * Fixed Output Size: Regardless of the input size, the hash
+code has a consistent size(eg , 32 bit , 64 bit). * Efficient computation: The hash function should compute the hash quickly.
+
+How Data is Stored in HashMap
+
+Step 1: Hashing the Key: Fist, the key is passed through a hash function to generate a unique hash code(an integer number).
+This hash code helps determine where the key-value pair will be stored in the array(called a "bucket array").
+
+Step 2: calculating the index: The hash code is then used to calculate an index in the array(bucket location) using
+ `int index = hashCode % arraySize`; The index decides which bucket will hold this key-value pair.
+For example, if the array size is 16, the key's hash Code will be divided by 16, and the remainder will be the index.
+
+Step 3 Storing in the bucket: The key-value pair is stored in the bucket at the calculated index. Each bucket can hold
+multiple key-value pairs. (This is called a collision handling mechanism )
+
+How HashMap retrieves Data:
+
+When we call get(key), the HashMap follows these steps:
+
+Hashing the key: Similar to insertion, the key is hashed using the same hash function to calculate its hash code.
+Finding the index: The hash code is used to find the index of the bucket where the key-value pair is stored
+Searching in the bucket: Once the correct bucket is found, it checks for the key in that bucket. If it finds the key
+, it returns the associated value.
+
+Two Questions:1. What type of data is stored in array? 2. Why Searching: The output of two different inputs can be same produced by hash function, this is called collision.
+Example of collision given in hashCollision, if there is a collision and two key-value pair hashed to same index
+then both will be there in that index by forming a linked list(each having pointer to next kv pair).
+the answer to Q1 is that it stores linked list is being stored at each cell
+
+class Node<K, V>{
+final int hash;  // hash code of the key
+final K key;     // the key itself
+V value;         // the value associated with the key
+Node<K, V> next; // pointer to the next node in case of collision (linked list)
+}
+
+Since different keys can generate same index(called a collision), java's hashMap uses Linked List (or balanced trees after java 8).
+If multiple key-value pairs map to the same bucket, they are stored in a linked list inside the bucket.
+When a key-value pair is retrieved, the hashmap traverses the linked list, checking each key until it finds a match.
+complexity to search key in linked list is O(N) while Java 8 introduces Balanced BST -> A red black tree, optimizing
+time to O(log n), It is a self balancing BST.
+
+HashMap Resizing(Rehashing)
+
+HashMap has an internal array size, which by default is 16. When the number of elements(key-value) grows and exceeds a
+certain factor (default is 0.75), hashmap automatically resizes the array to hold more data. this process is called rehashing.
+
+The default size of the array is 16, so when more than 12 elements (16* 0.75) are inserted, the HashMap will resize.
+When size exceeds 12, then resizing will happen. We can specify the initial capacity and load factor in the HashMap<>();
+
+HashMap<Integer, Integer> map = new HashMap<>(initialCapacity: 17, loadFactor: 0.5f)
+
+During rehashing : the array size is doubled.
+1. All existing entries are rehashed(i.e.; their positions are recalculated) and are placed into new array.
+2. this ensures the HashMap continues to perform efficiently even as more data is added.
+
+
+Time Complexity:
+
+hashMap provides constant time O(1) performance for basic operations like put() and get()(assuming no collision).
+however, if there are many collisions, and many entries are stored in the same bucket, the performance can degrade
+to O(n), where n is the number of elements in that bucket.
+
+But after Java 8, if there are to many elements in the bucket, the HashMap switches to a balanced tree instead of
+linked list to ensure better performance O(log n).
+
+Suppose we want to store information about the no of fruits in a store:
+Fruit   Quantity
+Apple     50
+Banana    30
+Orange    80
+Grape     20
+
+HashMap<String, Integer> fruitMap = new HashMap<>();
+Let us add the key-value pair one by one
+fruitMap.put("Apple", 50);
+
+Internal Process: The key "Apple" is hashed using its hashCode(). Let us assume "Apple" generates a hashCode of
+10832233
+The hashCode is used to alculate the index in the internal array(bucket array). Let us say the array size is initially 16.
+index = hashCode % arraySize;
+index = 10832233 % 16 = 9;
+
+This means "Apple" will be stored in bucket 9.
+Similarly; fruitMap.put("Banana", 30); index = 13942244 % 16 = 4;
+fruitMap.put("Orange", 80);
+index = 19332414 % 16 = 14;
+fruitMap.put("Grape", 20);
+index = 548734 % 16 = 14; ---> collision
+
+Since Orange is already stored in bucket 14, the HashMap handles the collision by adding Grape to the linked list in
+bucket 14. Now, bucket 14 contains two entries: ("Orange", 80) and ("Grape", 20);
+
+if fruitMap.get("Grape"), then the key is hashed and index is generated, then searching is performed on the linked list
+It internally uses `equals()` method to match value of given key with the key of each node
+
+But consider a case:
+class Student {
+int id; String name;
+}
+
+HashMap<Student, Integer>
+Student s1 = new Student();
+s1.setId(1);
+s1.setName("Ram");
+int marks = 70;
+map.put(s1, marks);
+
+Here key is an object, Student extends Object, Object class has hashCode() and equals() method which will be used here..
+hashCode() uses memory address of student instance to generates its hashcode
+equals will check if address is same while searching
+
+
+Ye hai pyaari si kahani HashMap ki! ❤️
+
+Methods:
+get(key): Returns the value associated with the given key in the map. If the key does not exist, it returns null
+put(key, value): Adds a key–value pair to the map. If the key already exists, the old value is replaced with the new value.
+keySet(): returns a set of keys, It is made to return set because the keys are always unique in Map object.
+containsKey(key): Checks whether the map contains the given key. Returns true if key exists. Returns false otherwise
+containsValue(value): Checks whether the map contains the given value. Returns true if value exists. Returns false otherwise
+remove(key): Removes the key and its value from the map.
+size(): Returns the number of key–value pairs in the map.
+isEmpty(): Checks whether the map is empty.
+clear(): Removes all entries from the map.
+keySet(): Returns a set of all keys.
+
+for(Integer key : map.keySet())
+
+values(): Returns a collection of all values.
+
+for(String value : map.values())
+
+entrySet(): Returns a set of key–value pairs (Map.Entry).
+
+for(Map.Entry<Integer, String> entry : map.entrySet()) {
+    entry.getKey();
+    entry.getValue();
+}
+⭐ Best way to iterate a HashMap
+
+putIfAbsent(key, value): Inserts value only if key is not present.
+replace(key, value): Replaces value only if key exists.
+replace(key, oldValue, newValue): Replaces value only if key & old value match.
+getOrDefault(key, defaultValue): Returns value if key exists, otherwise returns default value.
+remove(key, value): Removes entry only if key & value match.
+
+🔹 Java 8 Useful Methods
+compute(key, BiFunction): Updates value based on old value.
+computeIfAbsent(key, Function): Creates value only if key does not exist.
+computeIfPresent(key, BiFunction): Updates value only if key exists.
+forEach(BiConsumer): Iterates through map.
+map.forEach((k, v) -> System.out.println(k + " " + v));
+
+What is HashMap?
+
+HashMap is a class in java.util
+
+Stores data in key–value pairs
+
+Keys are unique, values can be duplicate
+
+Uses hashing for fast access
+
+Properties
+
+Order is NOT maintained
+
+Allows one null key
+
+Allows multiple null values
+
+Not thread-safe
+
+Average time complexity:
+
+put() → O(1)
+
+get() → O(1)
+
+
+Time Complexities:
+
+| Operation              | Average-Case Time Complexity | Worst-Case Time Complexity | Explanation                                                                                                                                                                                |
+| ---------------------- | ---------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `put(key, value)`      | **O(1)**                     | **O(log n)**               | Inserts a key-value pair. **Average:** Constant time due to direct bucket access. **Worst-case:** O(log n) when a bucket becomes a Red-Black Tree after exceeding the collision threshold. |
+| `get(key)`             | **O(1)**                     | **O(log n)**               | Retrieves the value associated with a key. **Average:** Constant time via direct bucket access. **Worst-case:** O(log n) when searching inside a treeified bucket.                         |
+| `remove(key)`          | **O(1)**                     | **O(log n)**               | Removes the key-value pair associated with a key. **Average:** Constant time with direct access. **Worst-case:** O(log n) when removing from a treeified bucket.                           |
+| `containsKey(key)`     | **O(1)**                     | **O(log n)**               | Checks if a key exists in the map. **Average:** Constant time via direct bucket access. **Worst-case:** O(log n) when searching inside a treeified bucket.                                 |
+| `containsValue(value)` | **O(n)**                     | **O(n)**                   | Checks if a value exists in the map. Both average and worst-case are linear since it may need to traverse all entries.                                                                     |
+| `size()`               | **O(1)**                     | **O(1)**                   | Returns the number of key-value pairs. Both average and worst-case are constant time because size is stored as a separate field.                                                           |
+
+Before Java 8: Worst-case for put/get/remove was O(n) due to linked lists.
+
+From Java 8 onwards: Buckets convert to Red-Black Trees, making worst-case O(log n).
