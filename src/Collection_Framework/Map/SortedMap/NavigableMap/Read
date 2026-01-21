@@ -1,0 +1,2 @@
+NavigableMap extends SortedMap, providing more powerful navigation options such as finding the closest matching keys
+or retrieving the map in reverse order

@@ -1,0 +1,17 @@
+Sorted map is an interface, If you instantiate it, It will be an anonymous class
+
+SortedMap is an interface that extends map and guarantees that the entries are sorted based on the keys, either in
+ their natural ordering or by the specific Comparator.
+
+ If you want to sort incoming entries based on keys then use SortedMap
+
+ TreeMap is an implementation class of SortedMap
+
+ The internal implementation of treeMap is a red black tree, a self balancing binary search tree
+ which means map.get() and map.containsKey() are in O(log n) time
+ but compareValue() is not in log n because values are not sorted
+
+ There will be no skewness in the red black black , it is always balanced, giving O(log n)
+
+ TreeMap implements NavigableMap , and NavigableMap extends SortedMap
+ SortedMap and NavigableMap are interfaces and TreeMap is an impl class
