@@ -1,0 +1,2 @@
+ConcurrentHashMap extends ConcurrentMap which implements Map
+Concurrency is achieved in ConcurrentMap
