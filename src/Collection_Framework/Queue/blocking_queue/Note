@@ -1,0 +1,10 @@
+ArrayBlockingQueue                                                  LinkedBlockingQueue
+A bounded, blocking queue backed by circular array                  optionally bounded backed by LinkedList
+low memory overhead                                                 uses two separate locks for enqueue and dequeue
+uses a single lock for both enqueue and dequeue operation           Higher concurrency between producer and consumer
+as the number of threads increases, wait and overhead inc
+more threads --> problem
+
+
+More threads --> Linked
+Less threads --> array
