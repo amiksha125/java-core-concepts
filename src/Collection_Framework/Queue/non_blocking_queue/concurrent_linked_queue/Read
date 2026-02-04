@@ -1,0 +1,6 @@
+ConcurrentLinkedQueue is an implementation of the queue interface that supports lock-free, thread-safe operations
+
+In blocking queue, put put cannot run together
+put take cannot run together
+but this queue allows concurrent execution of put and take
+That is why it gives high throughput
