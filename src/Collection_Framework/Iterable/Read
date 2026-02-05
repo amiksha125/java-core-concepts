@@ -1,0 +1,7 @@
+Parent of Collection framework
+
+There is an Iterable interface having iterator() method that returns Iterator<T>
+this Iterator<T> Object is used to traverse over collection, we can also use forEach loop
+Any class implementing iterable gets functionalities of forEach loop
+We are able to apply forEach loop with array list because It has written implementation
+of this method
