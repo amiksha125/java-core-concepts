@@ -1,0 +1,7 @@
+Introduced in Java 8
+
+Java 8 Basics
+Java 8 --> minimal code, functional programming features introduced (along with oop)
+Java 8 --> lambda expressions, Streams, Date & Time API
+
+Streams --> method reference, constructor reference, functional interface
